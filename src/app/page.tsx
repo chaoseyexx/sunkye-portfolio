@@ -2,18 +2,22 @@ import Image from "next/image";
 import { ArrowRight, Box, Cuboid, Layout, Mail, Palette, Quote, Smartphone, Star, Zap } from "lucide-react";
 import { ScrollAnimation } from "@/components/scroll-animation";
 import { PortfolioTabs } from "@/components/portfolio-tabs";
+import { getProjects } from "@/actions/projects";
 
 const PLACEHOLDER_IMG = "https://placehold.co/800x600/0a0a0a/8b5cf6?text=Sunkye+Builds";
 
-export default function Home() {
+export default async function Home() {
+  const projectsRes = await getProjects();
+  const initialProjects = projectsRes.success ? projectsRes.data : [];
+
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">
         {/* Hero Section */}
         <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
-          <div className="absolute inset-0 z-0 overflow-hidden">
-            <div className="absolute top-20 right-[10%] w-72 h-72 rounded-full bg-primary-500/10 blur-[100px] will-change-transform"></div>
-            <div className="absolute bottom-20 left-[5%] w-96 h-96 rounded-full bg-primary-700/10 blur-[120px] will-change-transform"></div>
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-20 right-[10%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.15)_0%,transparent_60%)] -translate-y-1/2 translate-x-1/4"></div>
+            <div className="absolute bottom-20 left-[5%] w-[1000px] h-[1000px] rounded-full bg-[radial-gradient(circle,rgba(109,40,217,0.15)_0%,transparent_60%)] translate-y-1/4 -translate-x-1/4"></div>
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
           </div>
 
@@ -69,8 +73,8 @@ export default function Home() {
 
         {/* About / Expertise Section */}
         <section id="about" className="py-24 md:py-40 relative">
-          <div className="absolute inset-0 z-0 overflow-hidden">
-            <div className="absolute top-1/4 left-[10%] w-96 h-96 rounded-full bg-primary-600/5 blur-[120px] will-change-transform"></div>
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-1/4 left-0 w-[1000px] h-[1000px] rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.08)_0%,transparent_60%)] -translate-x-1/2"></div>
           </div>
 
           <div className="container mx-auto px-4 relative z-10 space-y-20">
@@ -135,8 +139,8 @@ export default function Home() {
 
         {/* Portfolio Showcase Section */}
         <section id="portfolio" className="py-24 md:py-40 relative">
-          <div className="absolute inset-0 z-0 overflow-hidden">
-            <div className="absolute bottom-1/3 right-[5%] w-96 h-96 rounded-full bg-primary-600/5 blur-[120px] will-change-transform"></div>
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <div className="absolute bottom-1/4 right-0 w-[1000px] h-[1000px] rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.08)_0%,transparent_60%)] translate-x-1/3"></div>
           </div>
 
           <div className="container mx-auto px-4 relative z-10 space-y-16">
@@ -153,7 +157,7 @@ export default function Home() {
             </ScrollAnimation>
 
             <ScrollAnimation direction="up" delay={0.1}>
-              <PortfolioTabs />
+              <PortfolioTabs items={initialProjects} />
             </ScrollAnimation>
           </div>
         </section>
@@ -163,7 +167,7 @@ export default function Home() {
           <div className="container mx-auto px-4 relative z-10">
             <ScrollAnimation direction="up">
               <div className="max-w-4xl mx-auto rounded-3xl bg-neutral-900/50 border border-neutral-800 p-12 md:p-20 text-center relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600/10 blur-[100px] rounded-full will-change-transform"></div>
+                <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-[radial-gradient(circle,rgba(124,58,237,0.15)_0%,transparent_70%)] pointer-events-none"></div>
                 
                 <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-6 relative z-10">Ready to build something <span className="text-primary-400">amazing?</span></h2>
                 <p className="text-xl text-neutral-400 mb-10 max-w-2xl mx-auto relative z-10">
