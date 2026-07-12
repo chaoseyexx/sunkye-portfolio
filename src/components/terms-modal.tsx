@@ -21,8 +21,8 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
           </Button>
         </div>
 
-        <ScrollArea className="p-6 max-h-[calc(90vh-80px)]">
-          <div className="p-6 max-h-[calc(90vh-80px)]">
+        <ScrollArea className="h-[calc(90vh-140px)] w-full">
+          <div className="p-6">
             <div className="space-y-6">
               <div>
                 <p className="text-neutral-300">Last Updated: May 8, 2025</p>

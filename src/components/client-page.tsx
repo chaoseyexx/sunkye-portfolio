@@ -1023,8 +1023,8 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
         >
           {/* Background elements */}
           <div className="absolute inset-0 z-0">
-            <div className="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-20 left-[5%] w-96 h-96 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
+            <div className="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-primary/5 blur-3xl"></div>
+            <div className="absolute bottom-20 left-[5%] w-96 h-96 rounded-full bg-primary/5 blur-3xl"></div>
 
             {/* Grid pattern overlay */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
@@ -1106,8 +1106,8 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
           className="py-16 md:py-24 relative px-4 sm:px-0"
         >
           <div className="absolute inset-0 z-0">
-            <div className="absolute top-1/4 left-[10%] w-96 h-96 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-1/3 right-[5%] w-64 h-64 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
+            <div className="absolute top-1/4 left-[10%] w-96 h-96 rounded-full bg-primary/5 blur-3xl"></div>
+            <div className="absolute bottom-1/3 right-[5%] w-64 h-64 rounded-full bg-primary/5 blur-3xl"></div>
           </div>
 
           <div className="container relative z-10 space-y-10 md:space-y-16">
@@ -1233,7 +1233,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
           <div className="absolute inset-0 z-0">
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
             <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
-            <div className="absolute top-1/3 right-[10%] w-72 h-72 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
+            <div className="absolute top-1/3 right-[10%] w-72 h-72 rounded-full bg-primary/5 blur-3xl"></div>
 
             {/* Grid pattern overlay */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
@@ -1301,8 +1301,8 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
           className="py-16 md:py-24 relative px-4 sm:px-0"
         >
           <div className="absolute inset-0 z-0">
-            <div className="absolute top-1/4 right-[10%] w-96 h-96 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-1/3 left-[5%] w-64 h-64 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
+            <div className="absolute top-1/4 right-[10%] w-96 h-96 rounded-full bg-primary/5 blur-3xl"></div>
+            <div className="absolute bottom-1/3 left-[5%] w-64 h-64 rounded-full bg-primary/5 blur-3xl"></div>
 
             {/* Grid pattern overlay */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
@@ -1395,7 +1395,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
         {/* About Section */}
         <section id="about" ref={(el) => registerSection("about", el)} className="py-16 md:py-24 relative px-4 sm:px-0">
           <div className="absolute inset-0 z-0">
-            <div className="absolute bottom-1/4 left-[5%] w-80 h-80 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
+            <div className="absolute bottom-1/4 left-[5%] w-80 h-80 rounded-full bg-primary/5 blur-3xl"></div>
 
             {/* Grid pattern overlay */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
@@ -1490,7 +1490,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
         >
           <div className="absolute inset-0 z-0">
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
-            <div className="absolute top-1/4 right-[15%] w-64 h-64 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
+            <div className="absolute top-1/4 right-[15%] w-64 h-64 rounded-full bg-primary/5 blur-3xl"></div>
 
             {/* Grid pattern overlay */}
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
