@@ -766,17 +766,17 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
 
   // Calculate total pages for each category
   const totalPages = {
-    environments: Math.ceil(portfolio.environments.length / ITEMS_PER_PAGE),
-    structures: Math.ceil(portfolio.structures.length / ITEMS_PER_PAGE),
-    interiors: Math.ceil(portfolio.interiors.length / ITEMS_PER_PAGE),
-    models: Math.ceil(portfolio.models.length / ITEMS_PER_PAGE),
+    environments: Math.ceil((portfolio?.environments?.length || 0) / ITEMS_PER_PAGE),
+    structures: Math.ceil((portfolio?.structures?.length || 0) / ITEMS_PER_PAGE),
+    interiors: Math.ceil((portfolio?.interiors?.length || 0) / ITEMS_PER_PAGE),
+    models: Math.ceil((portfolio?.models?.length || 0) / ITEMS_PER_PAGE),
   }
 
   // Get paginated items for the current page
   const getPaginatedItems = (category: "environments" | "structures" | "interiors" | "models") => {
     const startIndex = (currentPage[category] - 1) * ITEMS_PER_PAGE
     const endIndex = startIndex + ITEMS_PER_PAGE
-    return portfolio[category].slice(startIndex, endIndex)
+    return (portfolio?.[category] || []).slice(startIndex, endIndex)
   }
 
   // Handle page change

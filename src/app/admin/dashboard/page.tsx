@@ -26,7 +26,7 @@ export default function AdminDashboard() {
         fetchData()
     }, [])
 
-    const total = portfolio ? portfolio.environments.length + portfolio.structures.length + portfolio.interiors.length + portfolio.models.length : 0
+    const total = portfolio ? (portfolio.environments?.length || 0) + (portfolio.structures?.length || 0) + (portfolio.interiors?.length || 0) + (portfolio.models?.length || 0) : 0
 
     if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-500 border-t-transparent"></div></div>
 
@@ -69,10 +69,10 @@ export default function AdminDashboard() {
                     <h3 className="text-sm font-medium text-white mb-3">Portfolio Breakdown</h3>
                     <div className="grid grid-cols-4 gap-2">
                         {[
-                            { label: "Environments", count: portfolio?.environments.length || 0, icon: Mountain, color: "text-purple-400" },
-                            { label: "Structures", count: portfolio?.structures.length || 0, icon: Building2, color: "text-amber-400" },
-                            { label: "Interiors", count: portfolio?.interiors.length || 0, icon: Sofa, color: "text-emerald-400" },
-                            { label: "Models", count: portfolio?.models.length || 0, icon: Package, color: "text-blue-400" },
+                            { label: "Environments", count: portfolio?.environments?.length || 0, icon: Mountain, color: "text-purple-400" },
+                            { label: "Structures", count: portfolio?.structures?.length || 0, icon: Building2, color: "text-amber-400" },
+                            { label: "Interiors", count: portfolio?.interiors?.length || 0, icon: Sofa, color: "text-emerald-400" },
+                            { label: "Models", count: portfolio?.models?.length || 0, icon: Package, color: "text-blue-400" },
                         ].map((item) => (
                             <div key={item.label} className="bg-neutral-800/50 rounded-lg p-3 text-center">
                                 <item.icon className={`h-4 w-4 mx-auto mb-1 ${item.color}`} />

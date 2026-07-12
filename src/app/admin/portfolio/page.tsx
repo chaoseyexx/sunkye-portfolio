@@ -143,7 +143,7 @@ export default function PortfolioPage() {
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as Category)}>
                 <TabsList className="bg-neutral-900/50 border border-neutral-800">
                     {(["environments", "structures", "interiors", "models"] as Category[]).map((cat) => (
-                        <TabsTrigger key={cat} value={cat} className="data-[state=active]:bg-purple-600 capitalize">{cat} ({portfolio?.[cat].length || 0})</TabsTrigger>
+                        <TabsTrigger key={cat} value={cat} className="data-[state=active]:bg-purple-600 capitalize">{cat} ({portfolio?.[cat]?.length || 0})</TabsTrigger>
                     ))}
                 </TabsList>
 

@@ -20,8 +20,17 @@ interface PortfolioData {
 
 export async function GET() {
     try {
-        const data = await readJsonFile<PortfolioData>('portfolio.json')
-        return NextResponse.json(data)
+        const data = await readJsonFile<any>('portfolio.json')
+        
+        // Ensure default structure exists
+        const portfolioData: PortfolioData = {
+            environments: data?.environments || [],
+            structures: data?.structures || [],
+            interiors: data?.interiors || [],
+            models: data?.models || []
+        }
+        
+        return NextResponse.json(portfolioData)
     } catch (error) {
         console.error('[API] Portfolio GET Error:', error)
         return NextResponse.json({ error: 'Failed to read portfolio data' }, { status: 500 })
@@ -36,7 +45,18 @@ export async function POST(request: NextRequest) {
         }
 
         const { category, item } = await request.json()
-        const data = await readJsonFile<PortfolioData>('portfolio.json')
+        let data = await readJsonFile<any>('portfolio.json')
+        
+        // Initialize data structure if empty
+        if (!data || Object.keys(data).length === 0) {
+            data = { environments: [], structures: [], interiors: [], models: [] }
+        } else {
+            // Ensure all categories exist even if data is present
+            data.environments = data.environments || []
+            data.structures = data.structures || []
+            data.interiors = data.interiors || []
+            data.models = data.models || []
+        }
 
         const prefix = category.slice(0, 3)
         const newItem = {
@@ -44,13 +64,13 @@ export async function POST(request: NextRequest) {
             id: generateId(prefix),
         }
 
-        if (data && category in data) {
+        if (category in data) {
             (data as any)[category].push(newItem)
             await writeJsonFile('portfolio.json', data)
             return NextResponse.json({ success: true, item: newItem })
         }
 
-        return NextResponse.json({ error: 'Invalid category or data not initialized' }, { status: 400 })
+        return NextResponse.json({ error: 'Invalid category' }, { status: 400 })
     } catch (error) {
         console.error('[API] Portfolio POST Error:', error)
         return NextResponse.json({ error: 'Failed to add item' }, { status: 500 })
