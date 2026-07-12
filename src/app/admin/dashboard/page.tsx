@@ -38,6 +38,23 @@ export default function AdminDashboard() {
             </div>
 
             {/* Stats Grid */}
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-medium text-white">Overview</h2>
+                {total === 0 && reviewsCount === 0 && skillsCount === 0 && (
+                    <Button 
+                        onClick={async () => {
+                            try {
+                                const res = await fetch('/api/seed', { method: 'POST' });
+                                if (res.ok) window.location.reload();
+                            } catch (e) { console.error(e) }
+                        }} 
+                        variant="outline" 
+                        className="text-purple-400 border-purple-500/30 hover:bg-purple-500/10"
+                    >
+                        Load Sample Data
+                    </Button>
+                )}
+            </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
                     { title: "Portfolio", value: total, icon: Images, href: "/admin/portfolio", color: "from-purple-500 to-purple-600" },
