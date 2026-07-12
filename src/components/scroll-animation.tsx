@@ -1,39 +1,41 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import type { ReactNode } from "react"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
-interface ScrollAnimationProps {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-  direction?: "up" | "down" | "left" | "right" | "none";
+type ScrollAnimationProps = {
+  children: ReactNode
+  className?: string
+  animation?: "fade-in-up" | "fade-in-down" | "fade-in-left" | "fade-in-right" | "scale-in"
+  duration?: "duration-300" | "duration-500" | "duration-700" | "duration-1000"
+  delay?: "delay-100" | "delay-200" | "delay-300" | "delay-400" | "delay-500" | "" | any
+  threshold?: number
+  rootMargin?: string
+  once?: boolean
 }
 
 export function ScrollAnimation({
   children,
   className = "",
-  delay = 0,
-  direction = "up",
+  animation = "fade-in-up",
+  duration = "duration-700",
+  delay = "",
+  threshold = 0.1,
+  rootMargin = "0px",
+  once = true,
 }: ScrollAnimationProps) {
-  const directions = {
-    up: { y: 50, x: 0 },
-    down: { y: -50, x: 0 },
-    left: { x: 50, y: 0 },
-    right: { x: -50, y: 0 },
-    none: { x: 0, y: 0 },
-  };
+  const { ref, isVisible } = useScrollAnimation({
+    threshold,
+    rootMargin,
+    triggerOnce: once,
+  })
 
   return (
-    <motion.div
-      initial={{ opacity: 0, ...directions[direction] }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, delay: delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-      style={{ willChange: "transform, opacity" }}
-      className={className}
+    <div
+      ref={ref}
+      className={`scroll-animate ${animation} ${duration} ${delay} ${isVisible ? "visible" : ""} ${className}`}
     >
       {children}
-    </motion.div>
-  );
+    </div>
+  )
 }

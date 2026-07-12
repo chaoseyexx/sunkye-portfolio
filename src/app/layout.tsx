@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { SmoothScrolling } from "@/components/smooth-scrolling";
-import { AudioPlayer } from "@/components/audio-player";
-import { Navbar } from "@/components/navbar";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -29,9 +27,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${outfit.variable} dark`}>
       <body className="antialiased selection:bg-primary-500/30 selection:text-white">
         <SmoothScrolling>
-          <Navbar />
           {children}
-          <AudioPlayer src="/bg-music.mp3" />
         </SmoothScrolling>
       </body>
     </html>
