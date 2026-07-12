@@ -947,7 +947,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
         <div className="container flex h-20 items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative h-10 w-auto">
-              <Image src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye" alt="Sunkye Logo" width={140} height={40} className="object-contain" />
+              <img src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye" alt="Sunkye Logo" width={140} height={40} className="object-contain" />
             </div>
           </div>
 
@@ -980,8 +980,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
                   <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
                       <div className="relative h-8 w-auto">
-                        <Image
-                          src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye"
+                        <img src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye"
                           alt="Sunkye Logo"
                           width={120}
                           height={32}
@@ -1052,8 +1051,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
 
                   {/* Promotional Banner */}
                   <div className="relative w-full max-w-2xl rounded-xl overflow-hidden shadow-2xl my-8">
-                    <Image
-                      src="https://placehold.co/960x540/0a0a0a/8b5cf6?text=Sunkye+Builds"
+                    <img src="https://placehold.co/960x540/0a0a0a/8b5cf6?text=Sunkye+Builds"
                       alt="Sunkye - Modeler & Builder"
                       width={960}
                       height={540}
@@ -1080,12 +1078,9 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
                 <div className="relative animate-float">
                   <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-primary/10 to-transparent rounded-2xl blur-2xl transform scale-95 translate-y-4"></div>
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-neutral-800/50 bg-gradient-to-br from-neutral-900 to-neutral-950 shadow-2xl shadow-primary/5">
-                    <Image
-                      src="https://placehold.co/800x600/0a0a0a/8b5cf6?text=Featured+Build"
+                    <img src="https://placehold.co/800x600/0a0a0a/8b5cf6?text=Featured+Build"
                       alt="Sci-Fi Research Laboratory"
-                      fill
                       className="object-cover mix-blend-lighten opacity-90"
-                      priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-6">
@@ -1137,25 +1132,25 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
                 <TabsList className="bg-neutral-900/50 backdrop-blur-md p-1 rounded-full border border-neutral-800">
                   <TabsTrigger
                     value="environments"
-                    className="rounded-full px-3 sm:px-6 py-1.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-600 data-[state=active]:to-red-600 data-[state=active]:text-white text-white"
+                    className="rounded-full px-3 sm:px-6 py-1.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-purple-800 data-[state=active]:text-white text-white"
                   >
                     Environments
                   </TabsTrigger>
                   <TabsTrigger
                     value="structures"
-                    className="rounded-full px-3 sm:px-6 py-1.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-600 data-[state=active]:to-red-600 data-[state=active]:text-white text-white"
+                    className="rounded-full px-3 sm:px-6 py-1.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-purple-800 data-[state=active]:text-white text-white"
                   >
                     Structures
                   </TabsTrigger>
                   <TabsTrigger
                     value="interiors"
-                    className="rounded-full px-3 sm:px-6 py-1.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-600 data-[state=active]:to-red-600 data-[state=active]:text-white text-white"
+                    className="rounded-full px-3 sm:px-6 py-1.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-purple-800 data-[state=active]:text-white text-white"
                   >
                     Interiors
                   </TabsTrigger>
                   <TabsTrigger
                     value="models"
-                    className="rounded-full px-3 sm:px-6 py-1.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-600 data-[state=active]:to-red-600 data-[state=active]:text-white text-white"
+                    className="rounded-full px-3 sm:px-6 py-1.5 text-xs sm:text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-purple-800 data-[state=active]:text-white text-white"
                   >
                     Models
                   </TabsTrigger>
@@ -1273,7 +1268,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
                   >
                     <Card className="h-full bg-card-gradient border-neutral-800/50 overflow-hidden group hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
                       <CardContent className="p-8 space-y-6">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center text-xl shadow-lg shadow-primary/20">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-800 flex items-center justify-center text-xl shadow-lg shadow-primary/20">
                           <IconComponent className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -1415,7 +1410,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
               >
                 <div className="absolute -inset-4 -z-10 bg-gradient-to-tr from-primary/10 to-transparent rounded-2xl blur-2xl transform scale-95 translate-y-4"></div>
                 <div className="relative aspect-square overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl shadow-primary/5">
-                  <Image src="https://placehold.co/400x400/0a0a0a/8b5cf6?text=Sunkye" alt="SunkyeGuy Profile" fill className="object-cover" />
+                  <img src="https://placehold.co/400x400/0a0a0a/8b5cf6?text=Sunkye" alt="SunkyeGuy Profile" className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 p-4 sm:p-6 md:p-8">
                     <div className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-sm text-xs font-medium text-primary-foreground mb-2 md:mb-3">
@@ -1473,7 +1468,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
                         delay={`delay-${Math.min(index * 100, 500)}` as any}
                       >
                         <li className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center text-sm shadow-lg shadow-primary/20">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-purple-800 flex items-center justify-center text-sm shadow-lg shadow-primary/20">
                             {String(index + 1).padStart(2, "0")}
                           </div>
                           <span className="text-white">{item}</span>
@@ -1482,83 +1477,6 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
                     ))}
                   </ul>
                 </div>
-              </ScrollAnimation>
-            </div>
-          </div>
-        </section>
-
-        {/* Groups I've Worked With Section */}
-        <section className="py-16 md:py-24 relative px-4 sm:px-0">
-          <div className="absolute inset-0 z-0">
-            <div className="absolute top-1/4 right-[10%] w-96 h-96 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-1/3 left-[5%] w-64 h-64 rounded-full bg-primary/5 blur-3xl animate-pulse-slow"></div>
-
-            {/* Grid pattern overlay */}
-            <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-          </div>
-
-          <div className="container relative z-10 space-y-10 md:space-y-16">
-            <ScrollAnimation animation="fade-in-up" duration="duration-700">
-              <div className="max-w-2xl mx-auto text-center space-y-3 md:space-y-4">
-                <h2 className="text-primary font-semibold flex items-center justify-center">
-                  <span className="inline-block w-4 md:w-6 h-[2px] bg-primary mr-2 md:mr-3"></span>
-                  COLLABORATIONS
-                  <span className="inline-block w-4 md:w-6 h-[2px] bg-primary ml-2 md:ml-3"></span>
-                </h2>
-                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white font-heading">
-                  Groups I've Worked With
-                </h3>
-              </div>
-            </ScrollAnimation>
-
-            {/* Updated collaboration images section with larger images */}
-            <div className="grid grid-cols-1 gap-10 max-w-4xl mx-auto">
-              <ScrollAnimation animation="fade-in-up" duration="duration-700">
-                <Card className="bg-card-gradient border-neutral-800/50 overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                  <CardContent className="p-6">
-                    <img
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-IIeyfDICFdqwccWblhk8bTqt8qKk73.png"
-                      alt="Combat Assault Team"
-                      className="w-full h-auto max-h-[400px] object-contain mx-auto"
-                    />
-                  </CardContent>
-                </Card>
-              </ScrollAnimation>
-
-              <ScrollAnimation animation="fade-in-up" duration="duration-700">
-                <Card className="bg-card-gradient border-neutral-800/50 overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                  <CardContent className="p-6">
-                    <img
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-4Ccotphj2MQ7KNPj2vquWIPyLnncX1.png"
-                      alt="Gotham's Shadow"
-                      className="w-full h-auto max-h-[400px] object-contain mx-auto"
-                    />
-                  </CardContent>
-                </Card>
-              </ScrollAnimation>
-
-              <ScrollAnimation animation="fade-in-up" duration="duration-700">
-                <Card className="bg-card-gradient border-neutral-800/50 overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                  <CardContent className="p-6">
-                    <img
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xmuLyYUly8Zid9vOVvzacVLnhFJKfi.png"
-                      alt="Squid Game International"
-                      className="w-full h-auto max-h-[400px] object-contain mx-auto"
-                    />
-                  </CardContent>
-                </Card>
-              </ScrollAnimation>
-
-              <ScrollAnimation animation="fade-in-up" duration="duration-700">
-                <Card className="bg-card-gradient border-neutral-800/50 overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                  <CardContent className="p-6">
-                    <img
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-vk5zbRQ8djJFVXBd0m5wBrAIej163s.png"
-                      alt="Illuminate Studios Games"
-                      className="w-full h-auto max-h-[400px] object-contain mx-auto"
-                    />
-                  </CardContent>
-                </Card>
               </ScrollAnimation>
             </div>
           </div>
@@ -1679,8 +1597,7 @@ export default function ClientPage({ initialProjects }: { initialProjects: any[]
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
               <div className="flex items-center gap-3">
                 <div className="relative h-7 w-auto md:h-8">
-                  <Image
-                    src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye"
+                  <img src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye"
                     alt="Sunkye Logo"
                     width={100}
                     height={32}
