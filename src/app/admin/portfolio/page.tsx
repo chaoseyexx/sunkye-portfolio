@@ -172,12 +172,48 @@ export default function PortfolioPage() {
                         <div><label className="text-sm text-neutral-400 block mb-2">Title</label><Input value={formData.title} onChange={(e) => setFormData((p) => ({ ...p, title: e.target.value }))} className="bg-neutral-800 border-neutral-700" placeholder="Enter title" /></div>
                         <div><label className="text-sm text-neutral-400 block mb-2">Description</label><Textarea value={formData.desc} onChange={(e) => setFormData((p) => ({ ...p, desc: e.target.value }))} className="bg-neutral-800 border-neutral-700 min-h-[100px]" placeholder="Enter description" /></div>
                         <div>
-                            <label className="text-sm text-neutral-400 block mb-2">Image</label>
-                            <div className="flex gap-2 items-center">
-                                <Link className="h-4 w-4 text-neutral-500 flex-shrink-0" />
-                                <Input value={formData.image} onChange={(e) => setFormData((p) => ({ ...p, image: e.target.value }))} className="bg-neutral-800 border-neutral-700" placeholder="https://i.imgur.com/... or https://i.ibb.co/..." />
-                            </div>
-                            <p className="text-xs text-neutral-500 mt-1">Use imgur.com, imgbb.com, or any image hosting service</p>
+                            <label className="text-sm text-neutral-400 block mb-2">Image Upload</label>
+                            <Input 
+                                type="file" 
+                                accept="image/*" 
+                                onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        // Simple client-side compression to avoid MongoDB/Vercel size limits
+                                        const reader = new FileReader();
+                                        reader.readAsDataURL(file);
+                                        reader.onload = (event) => {
+                                            const img = new window.Image();
+                                            img.src = event.target?.result as string;
+                                            img.onload = () => {
+                                                const canvas = document.createElement("canvas");
+                                                const MAX_WIDTH = 1200;
+                                                const MAX_HEIGHT = 1200;
+                                                let width = img.width;
+                                                let height = img.height;
+                                                
+                                                if (width > height && width > MAX_WIDTH) {
+                                                    height *= MAX_WIDTH / width;
+                                                    width = MAX_WIDTH;
+                                                } else if (height > MAX_HEIGHT) {
+                                                    width *= MAX_HEIGHT / height;
+                                                    height = MAX_HEIGHT;
+                                                }
+                                                
+                                                canvas.width = width;
+                                                canvas.height = height;
+                                                const ctx = canvas.getContext("2d");
+                                                ctx?.drawImage(img, 0, 0, width, height);
+                                                
+                                                const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+                                                setFormData((p) => ({ ...p, image: dataUrl }));
+                                            };
+                                        };
+                                    }
+                                }} 
+                                className="bg-neutral-800 border-neutral-700 cursor-pointer file:text-purple-500 file:bg-transparent file:border-0 hover:file:text-purple-400" 
+                            />
+                            <p className="text-xs text-neutral-500 mt-1">Select an image from your computer to upload directly</p>
                             {formData.image && <div className="mt-2 relative h-32 rounded-lg overflow-hidden"><Image src={formData.image} alt="Preview" fill className="object-cover" /></div>}
                         </div>
                     </div>
