@@ -2,12 +2,16 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export function AudioPlayer({ src = "/bg-music.mp3" }: { src?: string }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.2); // Default to 20% volume
   const audioRef = useRef<HTMLAudioElement>(null);
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/admin")) return null;
 
   useEffect(() => {
     if (audioRef.current) {
