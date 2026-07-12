@@ -1,104 +1,126 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { getProjects, deleteProject } from "@/actions/projects";
-import { ProjectForm } from "./components/project-form";
-import { Plus, Trash2, Image as ImageIcon, Loader2 } from "lucide-react";
+import type React from "react"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { Lock, Eye, EyeOff } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
-export default function AdminDashboard() {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+export default function AdminLoginPage() {
+    const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const router = useRouter()
 
-  const fetchProjects = async () => {
-    setLoading(true);
-    const res = await getProjects();
-    if (res.success && res.data) {
-      setProjects(res.data);
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setLoading(true)
+        setError("")
+
+        try {
+            const res = await fetch("/api/auth", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password }),
+            })
+
+            const data = await res.json()
+
+            if (data.success) {
+                router.push("/admin/dashboard")
+                router.refresh()
+            } else {
+                setError("Invalid password")
+            }
+        } catch (err) {
+            setError("Something went wrong")
+        } finally {
+            setLoading(false)
+        }
     }
-    setLoading(false);
-  };
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this project?")) return;
-    setDeletingId(id);
-    const res = await deleteProject(id);
-    if (res.success) {
-      setProjects(projects.filter(p => p._id !== id));
-    }
-    setDeletingId(null);
-  };
-
-  return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-white mb-1">Portfolio Projects</h1>
-          <p className="text-neutral-400">Manage your Roblox builds displayed on the live site.</p>
-        </div>
-        <button
-          onClick={() => setIsFormOpen(true)}
-          className="bg-primary-600 hover:bg-primary-500 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-colors shadow-lg shadow-primary-500/20"
-        >
-          <Plus className="w-5 h-5" />
-          Add New Project
-        </button>
-      </div>
-
-      {loading ? (
-        <div className="flex justify-center items-center py-20">
-          <Loader2 className="w-10 h-10 text-primary-500 animate-spin" />
-        </div>
-      ) : projects.length === 0 ? (
-        <div className="bg-neutral-900/50 border border-neutral-800 rounded-3xl p-12 text-center flex flex-col items-center">
-          <div className="w-16 h-16 bg-neutral-800 rounded-full flex items-center justify-center mb-4">
-            <ImageIcon className="w-8 h-8 text-neutral-500" />
-          </div>
-          <h3 className="text-xl font-bold text-white mb-2">No Projects Found</h3>
-          <p className="text-neutral-400 mb-6 max-w-md mx-auto">You haven't uploaded any projects yet. Click the button above to add your first build.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {projects.map((project) => (
-            <div key={project._id} className="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden group">
-              <div className="aspect-video relative overflow-hidden bg-neutral-950">
-                <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button 
-                    onClick={() => handleDelete(project._id)}
-                    disabled={deletingId === project._id}
-                    className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-lg disabled:opacity-50 transition-colors"
-                  >
-                    {deletingId === project._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                  </button>
-                </div>
-                <div className="absolute top-2 left-2 px-3 py-1 bg-black/60 backdrop-blur-md rounded-lg text-xs font-bold text-primary-400 uppercase tracking-wider">
-                  {project.category}
-                </div>
-              </div>
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-white mb-1 truncate">{project.title}</h3>
-                <p className="text-sm text-neutral-400 line-clamp-2">{project.desc}</p>
-              </div>
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center p-4">
+            {/* Background effects */}
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
             </div>
-          ))}
-        </div>
-      )}
 
-      {isFormOpen && (
-        <ProjectForm 
-          onClose={() => setIsFormOpen(false)} 
-          onComplete={() => {
-            setIsFormOpen(false);
-            fetchProjects();
-          }} 
-        />
-      )}
-    </div>
-  );
+            <Card className="w-full max-w-md bg-neutral-900/80 backdrop-blur-xl border-neutral-800/50 shadow-2xl relative z-10">
+                <CardHeader className="text-center pb-2">
+                    <div className="flex justify-center mb-4">
+                        <div className="relative h-12 w-auto">
+                            <img
+                                src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye"
+                                alt="Sunkye Logo"
+                                width={140}
+                                height={40}
+                                className="object-contain"
+                            />
+                        </div>
+                    </div>
+                    <h1 className="text-2xl font-bold text-white font-heading">Sunkye Admin</h1>
+                    <p className="text-neutral-400 text-sm">Enter your password to access the dashboard</p>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="space-y-2">
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-500" />
+                                <Input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Enter password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="pl-10 pr-10 h-12 bg-neutral-800/50 border-neutral-700 text-white placeholder:text-neutral-500 focus:border-purple-500 focus:ring-purple-500/20"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
+                                >
+                                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                </button>
+                            </div>
+                            {error && (
+                                <p className="text-purple-400 text-sm flex items-center gap-2">
+                                    <span className="inline-block w-1 h-1 bg-purple-400 rounded-full"></span>
+                                    {error}
+                                </p>
+                            )}
+                        </div>
+
+                        <Button
+                            type="submit"
+                            disabled={loading || !password}
+                            className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-600 hover:from-purple-500 hover:to-purple-500 text-white font-semibold shadow-lg shadow-purple-500/25 transition-all duration-300"
+                        >
+                            {loading ? (
+                                <span className="flex items-center gap-2">
+                                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                    </svg>
+                                    Authenticating...
+                                </span>
+                            ) : (
+                                "Access Dashboard"
+                            )}
+                        </Button>
+                    </form>
+
+                    <div className="mt-6 pt-6 border-t border-neutral-800">
+                        <p className="text-center text-neutral-500 text-xs">
+                            Protected area. Unauthorized access is prohibited.
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    )
 }

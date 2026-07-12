@@ -1,71 +1,90 @@
-"use client";
+"use client"
 
-import { usePathname, useRouter } from "next/navigation";
-import { logoutAction } from "@/actions/auth";
-import { LayoutDashboard, LogOut, Home } from "lucide-react";
-import Link from "next/link";
+import type React from "react"
+import { useState } from "react"
+import { useRouter, usePathname } from "next/navigation"
+import Link from "next/link"
+import { LayoutDashboard, Images, Star, Zap, Settings, LogOut, Menu, X, ExternalLink } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+
+const navItems = [
+    { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/admin/portfolio", label: "Portfolio", icon: Images },
+    { href: "/admin/reviews", label: "Reviews", icon: Star },
+    { href: "/admin/skills", label: "Skills", icon: Zap },
+    { href: "/admin/settings", label: "Settings", icon: Settings },
+]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const router = useRouter();
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const router = useRouter()
+    const pathname = usePathname()
 
-  // Don't show sidebar on login page
-  if (pathname === "/admin/login") {
-    return <>{children}</>;
-  }
+    if (pathname === "/admin") return <>{children}</>
 
-  const handleLogout = async () => {
-    await logoutAction();
-    router.push("/admin/login");
-  };
+    const handleLogout = async () => {
+        await fetch("/api/auth", { method: "DELETE" })
+        router.push("/admin")
+        router.refresh()
+    }
 
-  return (
-    <div className="min-h-screen bg-[#030303] flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-neutral-950 border-r border-neutral-900 flex flex-col hidden md:flex">
-        <div className="p-6 border-b border-neutral-900">
-          <Link href="/" className="text-2xl font-bold text-white flex items-center gap-2 hover:text-primary-400 transition-colors">
-            Sunkye<span className="text-primary-500">.</span>
-          </Link>
-          <span className="text-xs text-primary-500 font-bold uppercase tracking-widest mt-1 block">Admin Console</span>
+    return (
+        <div className="min-h-screen bg-neutral-950">
+            {sidebarOpen && <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+
+            {/* Sidebar */}
+            <aside className={cn(
+                "fixed top-0 left-0 z-50 h-full w-56 bg-neutral-900 border-r border-neutral-800 transition-transform duration-200",
+                sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+            )}>
+                <div className="flex flex-col h-full">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800">
+                        <span className="text-white font-bold text-xl">Sunkye<span className="text-purple-500">.</span></span>
+                        <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-neutral-400 hover:text-white">
+                            <X className="h-4 w-4" />
+                        </button>
+                    </div>
+
+                    <nav className="flex-1 p-2 space-y-1">
+                        {navItems.map((item) => {
+                            const isActive = pathname === item.href
+                            return (
+                                <Link key={item.href} href={item.href} onClick={() => setSidebarOpen(false)}
+                                    className={cn("flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors",
+                                        isActive ? "bg-purple-600/20 text-purple-400 border border-purple-500/30" : "text-neutral-400 hover:text-white hover:bg-neutral-800"
+                                    )}>
+                                    <item.icon className="h-4 w-4" />
+                                    <span>{item.label}</span>
+                                </Link>
+                            )
+                        })}
+                    </nav>
+
+                    <div className="p-2 border-t border-neutral-800">
+                        <Button onClick={handleLogout} variant="ghost" size="sm" className="w-full justify-start gap-2 text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 text-xs">
+                            <LogOut className="h-3 w-3" /> Logout
+                        </Button>
+                    </div>
+                </div>
+            </aside>
+
+            {/* Main */}
+            <div className="lg:pl-56">
+                <header className="sticky top-0 z-30 bg-neutral-950/90 backdrop-blur border-b border-neutral-800">
+                    <div className="flex items-center justify-between px-4 py-2">
+                        <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-neutral-400 hover:text-white">
+                            <Menu className="h-5 w-5" />
+                        </button>
+                        <div className="flex items-center gap-3 ml-auto">
+                            <Link href="/" target="_blank" className="inline-flex items-center gap-1 text-xs text-neutral-400 hover:text-white">
+                                View Site <ExternalLink className="h-3 w-3" />
+                            </Link>
+                        </div>
+                    </div>
+                </header>
+                <main className="p-4 lg:p-6">{children}</main>
+            </div>
         </div>
-
-        <nav className="flex-1 p-4 space-y-2">
-          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 bg-primary-600/10 text-primary-500 rounded-xl font-medium border border-primary-500/20">
-            <LayoutDashboard className="w-5 h-5" />
-            Projects
-          </Link>
-          <Link href="/" target="_blank" className="flex items-center gap-3 px-4 py-3 text-neutral-400 hover:bg-neutral-900 hover:text-white rounded-xl font-medium transition-colors">
-            <Home className="w-5 h-5" />
-            View Site
-          </Link>
-        </nav>
-
-        <div className="p-4 border-t border-neutral-900">
-          <button 
-            onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 w-full text-neutral-400 hover:bg-red-500/10 hover:text-red-500 rounded-xl font-medium transition-colors"
-          >
-            <LogOut className="w-5 h-5" />
-            Logout
-          </button>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        {/* Mobile Header */}
-        <header className="md:hidden flex items-center justify-between p-4 border-b border-neutral-900 bg-neutral-950">
-          <Link href="/" className="text-xl font-bold text-white">Sunkye<span className="text-primary-500">.</span></Link>
-          <button onClick={handleLogout} className="text-neutral-400 hover:text-red-500 p-2">
-            <LogOut className="w-5 h-5" />
-          </button>
-        </header>
-
-        <div className="p-6 md:p-10">
-          {children}
-        </div>
-      </main>
-    </div>
-  );
+    )
 }

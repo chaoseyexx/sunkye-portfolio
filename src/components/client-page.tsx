@@ -686,20 +686,15 @@ const initialSkills: Skill[] = [
   },
 ]
 
-export default function ClientPage({ initialProjects }: { initialProjects: any[] }) {
+export default function ClientPage({ initialPortfolio }: { initialPortfolio: any }) {
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const sectionsRef = useRef<{ [key: string]: HTMLElement | null }>({})
 
-  // Map initialProjects from DB
   const [portfolio, setPortfolio] = useState<any>(() => {
-    // We duplicate the projects across categories so the tabs aren't empty for now
-    return {
-      environments: initialProjects && initialProjects.length > 0 ? initialProjects : portfolioItems.environments,
-      structures: initialProjects && initialProjects.length > 0 ? initialProjects : portfolioItems.structures,
-      interiors: initialProjects && initialProjects.length > 0 ? initialProjects : portfolioItems.interiors,
-      models: initialProjects && initialProjects.length > 0 ? initialProjects : portfolioItems.models,
-    }
+    return initialPortfolio && Object.keys(initialPortfolio).length > 0 
+      ? initialPortfolio 
+      : portfolioItems
   })
   const [reviewsState, setReviewsState] = useState<Review[]>([])
   const [skills, setSkills] = useState<Skill[]>(initialSkills)

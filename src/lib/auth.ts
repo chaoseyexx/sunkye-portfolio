@@ -1,31 +1,39 @@
-import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers'
 
-const secretKey = process.env.JWT_SECRET || "default-secret-key-fallback";
-const key = new TextEncoder().encode(secretKey);
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'bmg123@portfolio'
+const SESSION_COOKIE_NAME = 'admin_session'
+const SESSION_VALUE = process.env.SESSION_SECRET || 'authenticated_bmg_admin_2024'
 
-export async function encrypt(payload: any) {
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("24h")
-    .sign(key);
+export async function verifyAuth(): Promise<boolean> {
+    const cookieStore = await cookies()
+    const session = cookieStore.get(SESSION_COOKIE_NAME)
+    return session?.value === SESSION_VALUE
 }
 
-export async function decrypt(input: string): Promise<any> {
-  const { payload } = await jwtVerify(input, key, {
-    algorithms: ["HS256"],
-  });
-  return payload;
+export function validatePassword(password: string): boolean {
+    return password === ADMIN_PASSWORD
 }
 
-export async function getSession() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_session")?.value;
-  if (!session) return null;
-  try {
-    return await decrypt(session);
-  } catch (error) {
-    return null;
-  }
+export function getSessionCookie() {
+    return {
+        name: SESSION_COOKIE_NAME,
+        value: SESSION_VALUE,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax' as const,
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+        path: '/',
+    }
+}
+
+export function getClearSessionCookie() {
+    return {
+        name: SESSION_COOKIE_NAME,
+        value: '',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax' as const,
+        maxAge: 0,
+        path: '/',
+    }
 }
