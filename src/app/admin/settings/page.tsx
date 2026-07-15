@@ -60,6 +60,50 @@ export default function SettingsPage() {
     if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-500 border-t-transparent"></div></div>
     if (!settings) return <div className="text-center py-8 text-neutral-400 text-sm">Failed to load settings</div>
 
+    const processImage = async (file: File): Promise<string> => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new window.Image();
+                img.src = event.target?.result as string;
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    const MAX_WIDTH = 1200;
+                    const MAX_HEIGHT = 1200;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height && width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    } else if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext("2d");
+                    ctx?.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL("image/jpeg", 0.8));
+                };
+            };
+        });
+    };
+
+    const handleUploadCollaboration = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files?.[0] || !settings) return;
+        const base64 = await processImage(e.target.files[0]);
+        const newCollab = { id: `coll-${Date.now()}`, name: `Collab ${settings.collaborations.length + 1}`, image: base64 };
+        setSettings({ ...settings, collaborations: [...settings.collaborations, newCollab] });
+    };
+
+    const removeCollaboration = (id: string) => {
+        if (!settings) return;
+        setSettings({ ...settings, collaborations: settings.collaborations.filter(c => c.id !== id) });
+    };
+
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -78,6 +122,7 @@ export default function SettingsPage() {
                     <TabsTrigger value="about" className="text-xs data-[state=active]:bg-purple-600 h-6"><User className="h-3 w-3 mr-1" />About</TabsTrigger>
                     <TabsTrigger value="hero" className="text-xs data-[state=active]:bg-purple-600 h-6"><ImageIcon className="h-3 w-3 mr-1" />Hero</TabsTrigger>
                     <TabsTrigger value="site" className="text-xs data-[state=active]:bg-purple-600 h-6"><FileText className="h-3 w-3 mr-1" />SEO</TabsTrigger>
+                    <TabsTrigger value="collaborations" className="text-xs data-[state=active]:bg-purple-600 h-6"><ImageIcon className="h-3 w-3 mr-1" />Collaborations</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="contact">
@@ -135,6 +180,45 @@ export default function SettingsPage() {
                             <h3 className="text-sm font-medium text-white flex items-center gap-2"><FileText className="h-4 w-4 text-purple-400" />SEO Settings</h3>
                             <div><label className="text-[10px] text-neutral-400 block mb-1">Site Title</label><Input value={settings.site.title} onChange={(e) => updateField("site", "title", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
                             <div><label className="text-[10px] text-neutral-400 block mb-1">Site Description</label><Textarea value={settings.site.description} onChange={(e) => updateField("site", "description", e.target.value)} className="bg-neutral-800 border-neutral-700 text-sm min-h-[60px]" /></div>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="collaborations">
+                    <Card className="bg-neutral-900/50 border-neutral-800/50">
+                        <CardContent className="p-4 space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-sm font-medium text-white flex items-center gap-2"><ImageIcon className="h-4 w-4 text-purple-400" />Groups I've Worked With</h3>
+                                    <p className="text-[10px] text-neutral-400 mt-1">Upload screenshots of group cards/banners</p>
+                                </div>
+                                <div>
+                                    <Input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        onChange={handleUploadCollaboration} 
+                                        className="bg-neutral-800 border-neutral-700 cursor-pointer file:text-purple-500 file:bg-transparent file:border-0 hover:file:text-purple-400 text-xs h-8 w-64" 
+                                    />
+                                </div>
+                            </div>
+                            
+                            {settings.collaborations.length === 0 ? (
+                                <div className="text-center py-6 text-neutral-500 text-xs border border-dashed border-neutral-800 rounded-lg">No collaborations added yet. Upload an image to start.</div>
+                            ) : (
+                                <div className="space-y-3 mt-4">
+                                    {settings.collaborations.map((collab, index) => (
+                                        <div key={collab.id} className="flex items-center gap-4 bg-neutral-800/50 p-2 rounded-lg border border-neutral-700/50">
+                                            <div className="text-xs text-neutral-500 w-6 text-center">{index + 1}</div>
+                                            <div className="h-16 flex-1 relative rounded overflow-hidden bg-neutral-900 flex items-center justify-center">
+                                                <img src={collab.image} alt={collab.name} className="h-full w-auto object-contain" />
+                                            </div>
+                                            <Button variant="ghost" size="sm" onClick={() => removeCollaboration(collab.id)} className="text-red-400 hover:text-red-300 hover:bg-red-950/30 h-8">
+                                                Remove
+                                            </Button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
                 </TabsContent>
