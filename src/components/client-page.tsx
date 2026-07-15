@@ -1477,47 +1477,49 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
         </section>
 
         {/* Collaborations Section */}
-        {settings?.collaborations && settings.collaborations.length > 0 && (
-          <section className="py-16 md:py-24 relative bg-neutral-900 border-t border-neutral-800/50 px-4 sm:px-0">
-            <div className="container mx-auto px-4 sm:px-6 md:px-0 max-w-4xl">
-              <ScrollAnimation animation="fade-in-up" duration="duration-700">
-                <div className="text-center space-y-3 md:space-y-4 mb-12">
-                  <h2 className="text-primary font-semibold flex items-center justify-center">
-                    <span className="inline-block w-4 md:w-6 h-[2px] bg-primary mr-2 md:mr-3"></span>
-                    COLLABORATIONS
-                    <span className="inline-block w-4 md:w-6 h-[2px] bg-primary ml-2 md:ml-3"></span>
-                  </h2>
-                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white font-heading">
-                    Groups I've Worked With
-                  </h3>
-                </div>
+        <section className="py-16 md:py-24 relative bg-neutral-900 border-t border-neutral-800/50 px-4 sm:px-0">
+          <div className="container mx-auto px-4 sm:px-6 md:px-0 max-w-4xl">
+            <ScrollAnimation animation="fade-in-up" duration="duration-700">
+              <div className="text-center space-y-3 md:space-y-4 mb-12">
+                <h2 className="text-primary font-semibold flex items-center justify-center">
+                  <span className="inline-block w-4 md:w-6 h-[2px] bg-primary mr-2 md:mr-3"></span>
+                  COLLABORATIONS
+                  <span className="inline-block w-4 md:w-6 h-[2px] bg-primary ml-2 md:ml-3"></span>
+                </h2>
+                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white font-heading">
+                  Groups I've Worked With
+                </h3>
+              </div>
 
-                <div className="flex flex-col gap-6 items-center">
-                  {settings.collaborations.map((collab, index) => (
-                    <ScrollAnimation
-                      key={collab.id}
-                      animation="fade-in-up"
-                      duration="duration-500"
-                      delay={`delay-${Math.min(index * 100, 500)}` as any}
-                      className="w-full"
-                    >
-                      <div className="relative w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950/50 shadow-xl group transition-all hover:border-primary/50">
-                        {/* Glow effect on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                        <img 
-                          src={collab.image} 
-                          alt={collab.name || "Collaboration"} 
-                          className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
-                          loading="lazy" decoding="async"
-                        />
-                      </div>
-                    </ScrollAnimation>
-                  ))}
-                </div>
-              </ScrollAnimation>
-            </div>
-          </section>
-        )}
+              <div className="flex flex-col gap-6 items-center">
+                {(settings?.collaborations?.length ? settings.collaborations : [
+                  { id: 'placeholder-1', name: 'Placeholder 1', image: 'https://placehold.co/900x200/0a0a0a/8b5cf6?text=Group+Card+1' },
+                  { id: 'placeholder-2', name: 'Placeholder 2', image: 'https://placehold.co/900x200/0a0a0a/8b5cf6?text=Group+Card+2' },
+                  { id: 'placeholder-3', name: 'Placeholder 3', image: 'https://placehold.co/900x200/0a0a0a/8b5cf6?text=Group+Card+3' },
+                ]).map((collab, index) => (
+                  <ScrollAnimation
+                    key={collab.id}
+                    animation="fade-in-up"
+                    duration="duration-500"
+                    delay={`delay-${Math.min(index * 100, 500)}` as any}
+                    className="w-full"
+                  >
+                    <div className="relative w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950/50 shadow-xl group transition-all hover:border-primary/50">
+                      {/* Glow effect on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                      <img 
+                        src={collab.image} 
+                        alt={collab.name || "Collaboration"} 
+                        className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                        loading="lazy" decoding="async"
+                      />
+                    </div>
+                  </ScrollAnimation>
+                ))}
+              </div>
+            </ScrollAnimation>
+          </div>
+        </section>
 
         {/* Contact Section */}
         <section
