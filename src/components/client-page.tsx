@@ -942,7 +942,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
         <div className="container flex h-20 items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative h-10 w-auto">
-              <img src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye" alt="Sunkye Logo" width={140} height={40} className="object-contain" />
+              <img src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye" alt="Sunkye Logo" width={140} height={40} className="object-contain" loading="lazy" decoding="async" />
             </div>
           </div>
 
@@ -977,9 +977,10 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                       <div className="relative h-8 w-auto">
                         <img src="https://placehold.co/140x40/0a0a0a/8b5cf6?text=Sunkye"
                           alt="Sunkye Logo"
-                          width={120}
-                          height={32}
+                          width={140}
+                          height={40}
                           className="object-contain"
+                          loading="lazy" decoding="async"
                         />
                       </div>
                     </div>
@@ -1051,6 +1052,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                       width={960}
                       height={540}
                       className="w-full h-auto"
+                      loading="lazy" decoding="async"
                     />
                   </div>
 
@@ -1076,6 +1078,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                     <img src="https://placehold.co/800x600/0a0a0a/8b5cf6?text=Featured+Build"
                       alt="Sci-Fi Research Laboratory"
                       className="object-cover mix-blend-lighten opacity-90"
+                      loading="lazy" decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-6">
@@ -1405,7 +1408,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
               >
                 <div className="absolute -inset-4 -z-10 bg-gradient-to-tr from-primary/10 to-transparent rounded-2xl blur-2xl transform scale-95 translate-y-4"></div>
                 <div className="relative aspect-square overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl shadow-primary/5">
-                  <img src="https://placehold.co/400x400/0a0a0a/8b5cf6?text=Sunkye" alt="SunkyeGuy Profile" className="object-cover" />
+                  <img src="https://placehold.co/400x400/0a0a0a/8b5cf6?text=Sunkye" alt="SunkyeGuy Profile" className="object-cover" loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 p-4 sm:p-6 md:p-8">
                     <div className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-sm text-xs font-medium text-primary-foreground mb-2 md:mb-3">
@@ -1431,31 +1434,27 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                     Professional Roblox Builder
                   </h3>
                 </div>
-                <p className="text-lg text-neutral-300">
-                  I'm Sunkye, an 18-year-old passionate Roblox builder with 4 years of experience creating
-                  immersive environments and structures. I have a proven track record of delivering high-quality builds
-                  that exceed expectations.
-                </p>
-                <p className="text-neutral-300">
-                  I specialize in creating detailed, functional, and optimized builds that enhance player experiences.
-                  My expertise spans both Roblox Studio and Blender, allowing me to create custom assets and
-                  environments that stand out from the competition.
-                </p>
-                <p className="text-neutral-300">
-                  My builds have been featured in popular Roblox games with over 9.7 million and 1.6 million visits,
-                  demonstrating my ability to create engaging content that players love.
-                </p>
+                {(settings?.about?.bio?.length ? settings.about.bio : [
+                  "I am Sunkye, a passionate builder and 3D modeler with years of experience crafting immersive environments and highly-detailed structures on Roblox.",
+                  "My journey started as a hobby but quickly evolved into a professional career as I realized my true potential lies in creating virtual worlds that exceed expectations.",
+                  "I specialize in creating detailed, functional, and optimized builds that enhance player experiences. My expertise spans both Roblox Studio and Blender, allowing me to create custom assets and environments that stand out from the competition.",
+                  "My builds have been featured in popular Roblox games with over 9.7 million and 1.6 million visits, demonstrating my ability to create engaging content that players love.",
+                ]).map((paragraph, index) => (
+                  <p key={index} className="text-neutral-300">
+                    {paragraph}
+                  </p>
+                ))}
 
                 <div className="pt-4 space-y-4">
                   <h4 className="text-xl font-bold text-white font-heading">Why Hire Me?</h4>
                   <ul className="space-y-3">
-                    {[
+                    {(settings?.about?.whyHireMe?.length ? settings.about.whyHireMe : [
                       "Always instantaneous to respond",
                       "Will complete your projects before the given deadline",
                       "Flexible with payment options",
                       "Fluent in English, a good communicator and team worker",
                       "Available 2-8 hours daily depending on project needs",
-                    ].map((item, index) => (
+                    ]).map((item, index) => (
                       <ScrollAnimation
                         key={index}
                         animation="fade-in-left"
@@ -1509,6 +1508,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                           src={collab.image} 
                           alt={collab.name || "Collaboration"} 
                           className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                          loading="lazy" decoding="async"
                         />
                       </div>
                     </ScrollAnimation>
@@ -1639,6 +1639,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                     width={100}
                     height={32}
                     className="object-contain"
+                    loading="lazy" decoding="async"
                   />
                 </div>
                 <button

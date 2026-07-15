@@ -27,7 +27,14 @@ export default function SettingsPage() {
     const fetchSettings = async () => {
         try {
             const res = await fetch("/api/settings")
-            setSettings(await res.json())
+            const data = await res.json()
+            
+            // Safe fallbacks for older database documents that might be missing these arrays
+            if (data.about && !data.about.bio) data.about.bio = []
+            if (data.about && !data.about.whyHireMe) data.about.whyHireMe = []
+            if (!data.collaborations) data.collaborations = []
+            
+            setSettings(data)
         } catch (e) { console.error(e) } finally { setLoading(false) }
     }
 
@@ -61,34 +68,53 @@ export default function SettingsPage() {
     if (!settings) return <div className="text-center py-8 text-neutral-400 text-sm">Failed to load settings</div>
 
     const processImage = async (file: File): Promise<string> => {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (event) => {
-                const img = new window.Image();
-                img.src = event.target?.result as string;
-                img.onload = () => {
-                    const canvas = document.createElement("canvas");
-                    const MAX_WIDTH = 1200;
-                    const MAX_HEIGHT = 1200;
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    if (width > height && width > MAX_WIDTH) {
-                        height *= MAX_WIDTH / width;
-                        width = MAX_WIDTH;
-                    } else if (height > MAX_HEIGHT) {
-                        width *= MAX_HEIGHT / height;
-                        height = MAX_HEIGHT;
-                    }
-                    
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext("2d");
-                    ctx?.drawImage(img, 0, 0, width, height);
-                    resolve(canvas.toDataURL("image/jpeg", 0.8));
+        return new Promise((resolve, reject) => {
+            try {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new window.Image();
+                    img.src = event.target?.result as string;
+                    img.onload = () => {
+                        try {
+                            const canvas = document.createElement("canvas");
+                            const MAX_WIDTH = 1200;
+                            const MAX_HEIGHT = 1200;
+                            let width = img.width;
+                            let height = img.height;
+                            
+                            if (width > height && width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            } else if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                            
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext("2d");
+                            ctx?.drawImage(img, 0, 0, width, height);
+                            resolve(canvas.toDataURL("image/jpeg", 0.8));
+                        } catch (err) {
+                            console.error("Canvas compression failed:", err);
+                            alert("Failed to compress image.");
+                            reject(err);
+                        }
+                    };
+                    img.onerror = () => {
+                        alert("Invalid image file.");
+                        reject(new Error("Invalid image"));
+                    };
                 };
-            };
+                reader.onerror = () => {
+                    alert("Failed to read file.");
+                    reject(new Error("Read failed"));
+                };
+            } catch (err) {
+                console.error("Image processing error:", err);
+                reject(err);
+            }
         });
     };
 

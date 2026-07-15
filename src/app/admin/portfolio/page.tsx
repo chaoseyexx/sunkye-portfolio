@@ -179,36 +179,51 @@ export default function PortfolioPage() {
                                 onChange={async (e) => {
                                     const file = e.target.files?.[0];
                                     if (file) {
-                                        // Simple client-side compression to avoid MongoDB/Vercel size limits
-                                        const reader = new FileReader();
-                                        reader.readAsDataURL(file);
-                                        reader.onload = (event) => {
-                                            const img = new window.Image();
-                                            img.src = event.target?.result as string;
-                                            img.onload = () => {
-                                                const canvas = document.createElement("canvas");
-                                                const MAX_WIDTH = 1200;
-                                                const MAX_HEIGHT = 1200;
-                                                let width = img.width;
-                                                let height = img.height;
-                                                
-                                                if (width > height && width > MAX_WIDTH) {
-                                                    height *= MAX_WIDTH / width;
-                                                    width = MAX_WIDTH;
-                                                } else if (height > MAX_HEIGHT) {
-                                                    width *= MAX_HEIGHT / height;
-                                                    height = MAX_HEIGHT;
-                                                }
-                                                
-                                                canvas.width = width;
-                                                canvas.height = height;
-                                                const ctx = canvas.getContext("2d");
-                                                ctx?.drawImage(img, 0, 0, width, height);
-                                                
-                                                const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
-                                                setFormData((p) => ({ ...p, image: dataUrl }));
+                                        try {
+                                            // Simple client-side compression to avoid MongoDB/Vercel size limits
+                                            const reader = new FileReader();
+                                            reader.readAsDataURL(file);
+                                            reader.onload = (event) => {
+                                                const img = new window.Image();
+                                                img.src = event.target?.result as string;
+                                                img.onload = () => {
+                                                    try {
+                                                        const canvas = document.createElement("canvas");
+                                                        const MAX_WIDTH = 1200;
+                                                        const MAX_HEIGHT = 1200;
+                                                        let width = img.width;
+                                                        let height = img.height;
+                                                        
+                                                        if (width > height && width > MAX_WIDTH) {
+                                                            height *= MAX_WIDTH / width;
+                                                            width = MAX_WIDTH;
+                                                        } else if (height > MAX_HEIGHT) {
+                                                            width *= MAX_HEIGHT / height;
+                                                            height = MAX_HEIGHT;
+                                                        }
+                                                        
+                                                        canvas.width = width;
+                                                        canvas.height = height;
+                                                        const ctx = canvas.getContext("2d");
+                                                        ctx?.drawImage(img, 0, 0, width, height);
+                                                        
+                                                        const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+                                                        setFormData((p) => ({ ...p, image: dataUrl }));
+                                                    } catch (err) {
+                                                        console.error("Canvas compression failed:", err);
+                                                        alert("Failed to compress image. Try a different format.");
+                                                    }
+                                                };
+                                                img.onerror = () => {
+                                                    alert("Invalid image file.");
+                                                };
                                             };
-                                        };
+                                            reader.onerror = () => {
+                                                alert("Failed to read file.");
+                                            }
+                                        } catch (err) {
+                                            console.error("Image processing error:", err);
+                                        }
                                     }
                                 }} 
                                 className="bg-neutral-800 border-neutral-700 cursor-pointer file:text-purple-500 file:bg-transparent file:border-0 hover:file:text-purple-400" 
