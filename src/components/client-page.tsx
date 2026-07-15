@@ -1477,8 +1477,13 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
         </section>
 
         {/* Collaborations Section */}
-        <section className="py-16 md:py-24 relative bg-neutral-900 border-t border-neutral-800/50 px-4 sm:px-0">
-          <div className="container mx-auto px-4 sm:px-6 md:px-0 max-w-4xl">
+        <section className="py-16 md:py-24 relative px-4 sm:px-0">
+          <div className="absolute inset-0 z-0">
+            <div className="absolute top-1/4 right-[5%] w-80 h-80 rounded-full bg-primary/5 blur-3xl"></div>
+            {/* Grid pattern overlay */}
+            <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+          </div>
+          <div className="container relative z-10 mx-auto px-4 sm:px-6 md:px-0 max-w-4xl">
             <ScrollAnimation animation="fade-in-up" duration="duration-700">
               <div className="text-center space-y-3 md:space-y-4 mb-12">
                 <h2 className="text-primary font-semibold flex items-center justify-center">
