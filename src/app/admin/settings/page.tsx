@@ -29,10 +29,15 @@ export default function SettingsPage() {
             const res = await fetch("/api/settings")
             const data = await res.json()
             
-            // Safe fallbacks for older database documents that might be missing these arrays
-            if (data.about && !data.about.bio) data.about.bio = []
-            if (data.about && !data.about.whyHireMe) data.about.whyHireMe = []
+            // Safe fallbacks for older or empty database documents
+            if (!data.site) data.site = { title: "", description: "" }
+            if (!data.hero) data.hero = { subtitle: "", title: "", description: "", featuredImage: "", featuredTitle: "", featuredDescription: "" }
+            if (!data.about) data.about = { name: "", age: "", experience: "", profileImage: "", bio: [], whyHireMe: [] }
+            if (!data.contact) data.contact = { email: "", robloxUsername: "", discordUsername: "", discordLink: "", availability: "" }
             if (!data.collaborations) data.collaborations = []
+            
+            if (!data.about.bio) data.about.bio = []
+            if (!data.about.whyHireMe) data.about.whyHireMe = []
             
             setSettings(data)
         } catch (e) { console.error(e) } finally { setLoading(false) }
