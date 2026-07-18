@@ -4,7 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
-import { LayoutDashboard, Images, Star, Zap, Settings, LogOut, Menu, X, ExternalLink } from "lucide-react"
+import { LayoutDashboard, Images, Star, Zap, Settings, LogOut, Menu, X, ExternalLink, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -13,6 +13,7 @@ const navItems = [
     { href: "/admin/portfolio", label: "Portfolio", icon: Images },
     { href: "/admin/reviews", label: "Reviews", icon: Star },
     { href: "/admin/skills", label: "Skills", icon: Zap },
+    { href: "/admin/collaborations", label: "Collaborations", icon: Users },
     { href: "/admin/settings", label: "Settings", icon: Settings },
 ]
 

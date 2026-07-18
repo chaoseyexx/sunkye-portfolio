@@ -72,69 +72,6 @@ export default function SettingsPage() {
     if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-500 border-t-transparent"></div></div>
     if (!settings) return <div className="text-center py-8 text-neutral-400 text-sm">Failed to load settings</div>
 
-    const processImage = async (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-            try {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new window.Image();
-                    img.src = event.target?.result as string;
-                    img.onload = () => {
-                        try {
-                            const canvas = document.createElement("canvas");
-                            const MAX_WIDTH = 1200;
-                            const MAX_HEIGHT = 1200;
-                            let width = img.width;
-                            let height = img.height;
-                            
-                            if (width > height && width > MAX_WIDTH) {
-                                height *= MAX_WIDTH / width;
-                                width = MAX_WIDTH;
-                            } else if (height > MAX_HEIGHT) {
-                                width *= MAX_HEIGHT / height;
-                                height = MAX_HEIGHT;
-                            }
-                            
-                            canvas.width = width;
-                            canvas.height = height;
-                            const ctx = canvas.getContext("2d");
-                            ctx?.drawImage(img, 0, 0, width, height);
-                            resolve(canvas.toDataURL("image/jpeg", 0.8));
-                        } catch (err) {
-                            console.error("Canvas compression failed:", err);
-                            alert("Failed to compress image.");
-                            reject(err);
-                        }
-                    };
-                    img.onerror = () => {
-                        alert("Invalid image file.");
-                        reject(new Error("Invalid image"));
-                    };
-                };
-                reader.onerror = () => {
-                    alert("Failed to read file.");
-                    reject(new Error("Read failed"));
-                };
-            } catch (err) {
-                console.error("Image processing error:", err);
-                reject(err);
-            }
-        });
-    };
-
-    const handleUploadCollaboration = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files?.[0] || !settings) return;
-        const base64 = await processImage(e.target.files[0]);
-        const newCollab = { id: `coll-${Date.now()}`, name: `Collab ${settings.collaborations.length + 1}`, image: base64 };
-        setSettings({ ...settings, collaborations: [...settings.collaborations, newCollab] });
-    };
-
-    const removeCollaboration = (id: string) => {
-        if (!settings) return;
-        setSettings({ ...settings, collaborations: settings.collaborations.filter(c => c.id !== id) });
-    };
-
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -149,11 +86,8 @@ export default function SettingsPage() {
 
             <Tabs defaultValue="contact" className="space-y-4">
                 <TabsList className="bg-neutral-900/50 border border-neutral-800 h-8">
-                    <TabsTrigger value="contact" className="text-xs data-[state=active]:bg-purple-600 h-6"><Mail className="h-3 w-3 mr-1" />Contact</TabsTrigger>
-                    <TabsTrigger value="about" className="text-xs data-[state=active]:bg-purple-600 h-6"><User className="h-3 w-3 mr-1" />About</TabsTrigger>
-                    <TabsTrigger value="hero" className="text-xs data-[state=active]:bg-purple-600 h-6"><ImageIcon className="h-3 w-3 mr-1" />Hero</TabsTrigger>
-                    <TabsTrigger value="site" className="text-xs data-[state=active]:bg-purple-600 h-6"><FileText className="h-3 w-3 mr-1" />SEO</TabsTrigger>
-                    <TabsTrigger value="collaborations" className="text-xs data-[state=active]:bg-purple-600 h-6"><ImageIcon className="h-3 w-3 mr-1" />Collaborations</TabsTrigger>
+                    <TabsTrigger value="contact" className="text-xs data-[state=active]:bg-purple-600 h-6"><Mail className="h-3 w-3 mr-1" />Contact & Social</TabsTrigger>
+                    <TabsTrigger value="about" className="text-xs data-[state=active]:bg-purple-600 h-6"><User className="h-3 w-3 mr-1" />About Me</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="contact">
@@ -183,73 +117,6 @@ export default function SettingsPage() {
                             <div><label className="text-[10px] text-neutral-400 block mb-1">Profile Image URL</label><Input value={settings.about.profileImage} onChange={(e) => updateField("about", "profileImage", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
                             <div><label className="text-[10px] text-neutral-400 block mb-1">Bio Paragraphs</label><div className="space-y-1.5">{settings.about.bio.map((p, i) => <Textarea key={i} value={p} onChange={(e) => updateBio(i, e.target.value)} className="bg-neutral-800 border-neutral-700 text-sm min-h-[50px]" placeholder={`Paragraph ${i + 1}`} />)}</div></div>
                             <div><label className="text-[10px] text-neutral-400 block mb-1">Why Hire Me Points</label><div className="space-y-1.5">{settings.about.whyHireMe.map((p, i) => <Input key={i} value={p} onChange={(e) => updateWhyHire(i, e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" placeholder={`Point ${i + 1}`} />)}</div></div>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="hero">
-                    <Card className="bg-neutral-900/50 border-neutral-800/50">
-                        <CardContent className="p-4 space-y-3">
-                            <h3 className="text-sm font-medium text-white flex items-center gap-2"><ImageIcon className="h-4 w-4 text-purple-400" />Hero Section</h3>
-                            <div className="grid grid-cols-2 gap-3">
-                                <div><label className="text-[10px] text-neutral-400 block mb-1">Subtitle</label><Input value={settings.hero.subtitle} onChange={(e) => updateField("hero", "subtitle", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
-                                <div><label className="text-[10px] text-neutral-400 block mb-1">Title</label><Input value={settings.hero.title} onChange={(e) => updateField("hero", "title", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
-                            </div>
-                            <div><label className="text-[10px] text-neutral-400 block mb-1">Description</label><Textarea value={settings.hero.description} onChange={(e) => updateField("hero", "description", e.target.value)} className="bg-neutral-800 border-neutral-700 text-sm min-h-[50px]" /></div>
-                            <div><label className="text-[10px] text-neutral-400 block mb-1">featured Image</label><Input value={settings.hero.featuredImage} onChange={(e) => updateField("hero", "featuredImage", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
-                            <div className="grid grid-cols-2 gap-3">
-                                <div><label className="text-[10px] text-neutral-400 block mb-1">featured Title</label><Input value={settings.hero.featuredTitle} onChange={(e) => updateField("hero", "featuredTitle", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
-                                <div><label className="text-[10px] text-neutral-400 block mb-1">featured Description</label><Input value={settings.hero.featuredDescription} onChange={(e) => updateField("hero", "featuredDescription", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="site">
-                    <Card className="bg-neutral-900/50 border-neutral-800/50">
-                        <CardContent className="p-4 space-y-3">
-                            <h3 className="text-sm font-medium text-white flex items-center gap-2"><FileText className="h-4 w-4 text-purple-400" />SEO Settings</h3>
-                            <div><label className="text-[10px] text-neutral-400 block mb-1">Site Title</label><Input value={settings.site.title} onChange={(e) => updateField("site", "title", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
-                            <div><label className="text-[10px] text-neutral-400 block mb-1">Site Description</label><Textarea value={settings.site.description} onChange={(e) => updateField("site", "description", e.target.value)} className="bg-neutral-800 border-neutral-700 text-sm min-h-[60px]" /></div>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="collaborations">
-                    <Card className="bg-neutral-900/50 border-neutral-800/50">
-                        <CardContent className="p-4 space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h3 className="text-sm font-medium text-white flex items-center gap-2"><ImageIcon className="h-4 w-4 text-purple-400" />Groups I've Worked With</h3>
-                                    <p className="text-[10px] text-neutral-400 mt-1">Upload screenshots of group cards/banners</p>
-                                </div>
-                                <div>
-                                    <Input 
-                                        type="file" 
-                                        accept="image/*" 
-                                        onChange={handleUploadCollaboration} 
-                                        className="bg-neutral-800 border-neutral-700 cursor-pointer file:text-purple-500 file:bg-transparent file:border-0 hover:file:text-purple-400 text-xs h-8 w-64" 
-                                    />
-                                </div>
-                            </div>
-                            
-                            {settings.collaborations.length === 0 ? (
-                                <div className="text-center py-6 text-neutral-500 text-xs border border-dashed border-neutral-800 rounded-lg">No collaborations added yet. Upload an image to start.</div>
-                            ) : (
-                                <div className="space-y-3 mt-4">
-                                    {settings.collaborations.map((collab, index) => (
-                                        <div key={collab.id} className="flex items-center gap-4 bg-neutral-800/50 p-2 rounded-lg border border-neutral-700/50">
-                                            <div className="text-xs text-neutral-500 w-6 text-center">{index + 1}</div>
-                                            <div className="h-16 flex-1 relative rounded overflow-hidden bg-neutral-900 flex items-center justify-center">
-                                                <img src={collab.image} alt={collab.name} className="h-full w-auto object-contain" />
-                                            </div>
-                                            <Button variant="ghost" size="sm" onClick={() => removeCollaboration(collab.id)} className="text-red-400 hover:text-red-300 hover:bg-red-950/30 h-8">
-                                                Remove
-                                            </Button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
                         </CardContent>
                     </Card>
                 </TabsContent>
