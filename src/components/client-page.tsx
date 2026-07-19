@@ -1046,12 +1046,12 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                   </p>
 
                   {/* Promotional Banner */}
-                  <div className="relative w-full max-w-2xl rounded-xl overflow-hidden shadow-2xl my-8">
-                    <img src="https://placehold.co/960x540/0a0a0a/8b5cf6?text=Sunkye+Builds"
+                  <div className="relative w-full max-w-2xl rounded-xl overflow-hidden shadow-2xl my-8 border border-neutral-800/50">
+                    <img src="/build.webp"
                       alt="Sunkye - Modeler & Builder"
                       width={960}
                       height={540}
-                      className="w-full h-auto"
+                      className="w-full h-auto object-cover"
                       loading="lazy" decoding="async"
                     />
                   </div>
@@ -1074,10 +1074,10 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
               <ScrollAnimation animation="fade-in-right" duration="duration-1000">
                 <div className="relative animate-float">
                   <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-primary/10 to-transparent rounded-2xl blur-2xl transform scale-95 translate-y-4"></div>
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-neutral-800/50 bg-gradient-to-br from-neutral-900 to-neutral-950 shadow-2xl shadow-primary/5">
-                    <img src="https://placehold.co/800x600/0a0a0a/8b5cf6?text=Featured+Build"
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-neutral-800/50 bg-neutral-900 shadow-2xl shadow-primary/5">
+                    <img src="/featured.webp"
                       alt="Sci-Fi Research Laboratory"
-                      className="object-cover mix-blend-lighten opacity-90"
+                      className="object-cover w-full h-full"
                       loading="lazy" decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
