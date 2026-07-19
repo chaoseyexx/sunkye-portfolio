@@ -1408,7 +1408,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
               >
                 <div className="absolute -inset-4 -z-10 bg-gradient-to-tr from-primary/10 to-transparent rounded-2xl blur-2xl transform scale-95 translate-y-4"></div>
                 <div className="relative aspect-square overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl shadow-primary/5">
-                  <img src="https://placehold.co/400x400/0a0a0a/8b5cf6?text=Sunkye" alt="SunkyeGuy Profile" className="object-cover" loading="lazy" decoding="async" />
+                  <img src={settings?.about?.profileImage || "/sunkyenoFilter.webp"} alt="Sunkye Profile" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 p-4 sm:p-6 md:p-8">
                     <div className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-sm text-xs font-medium text-primary-foreground mb-2 md:mb-3">
