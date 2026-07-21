@@ -1472,21 +1472,11 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                     <div className="space-y-6">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                          <Mail className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-neutral-300">Email</p>
-                          <p className="font-medium text-white">singhrudrapratap21.2007@gmail.com</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                           <Code className="h-5 w-5 text-primary" />
                         </div>
                         <div>
                           <p className="text-sm text-neutral-300">Roblox Username</p>
-                          <p className="font-medium text-white">Sunkye</p>
+                          <p className="font-medium text-white">{settings?.contact?.robloxUsername || "burulubulubu"}</p>
                         </div>
                       </div>
                     </div>
@@ -1519,7 +1509,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                     <div className="space-y-6">
                       <div className="p-4 rounded-xl bg-neutral-900/50 border border-neutral-800/50">
                         <p className="text-sm text-neutral-300 mb-1">Discord Username</p>
-                        <p className="font-medium text-white">@sunkye</p>
+                        <p className="font-medium text-white">{settings?.contact?.discordUsername || "sunken330"}</p>
                       </div>
 
                       <Button

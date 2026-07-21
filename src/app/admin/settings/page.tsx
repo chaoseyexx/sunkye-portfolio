@@ -95,7 +95,7 @@ export default function SettingsPage() {
                         <CardContent className="p-4 space-y-3">
                             <h3 className="text-sm font-medium text-white flex items-center gap-2"><Mail className="h-4 w-4 text-purple-400" />Contact Information</h3>
                             <div className="grid grid-cols-2 gap-3">
-                                <div><label className="text-[10px] text-neutral-400 block mb-1">Email</label><Input value={settings.contact.email} onChange={(e) => updateField("contact", "email", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
+
                                 <div><label className="text-[10px] text-neutral-400 block mb-1">Roblox Username</label><Input value={settings.contact.robloxUsername} onChange={(e) => updateField("contact", "robloxUsername", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
                                 <div><label className="text-[10px] text-neutral-400 block mb-1">Discord Username</label><Input value={settings.contact.discordUsername} onChange={(e) => updateField("contact", "discordUsername", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
                                 <div><label className="text-[10px] text-neutral-400 block mb-1">Discord Link</label><Input value={settings.contact.discordLink} onChange={(e) => updateField("contact", "discordLink", e.target.value)} className="bg-neutral-800 border-neutral-700 h-8 text-sm" /></div>
