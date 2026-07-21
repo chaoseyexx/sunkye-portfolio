@@ -947,7 +947,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
           </div>
 
           <nav className="hidden md:flex gap-8">
-            {["home", "portfolio", "skills", "reviews", "about", "contact"].map((section) => (
+            {["home", "portfolio", "skills", "about", "contact"].map((section) => (
               <Link
                 key={section}
                 href={`#${section}`}
@@ -986,7 +986,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
                     </div>
                   </div>
                   <nav className="flex flex-col gap-6">
-                    {["home", "portfolio", "skills", "reviews", "about", "contact"].map((section) => (
+                    {["home", "portfolio", "skills", "about", "contact"].map((section) => (
                       <Link
                         key={section}
                         href={`#${section}`}
@@ -1292,104 +1292,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
           </div>
         </section>
 
-        {/* Reviews Section */}
-        <section
-          id="reviews"
-          ref={(el) => registerSection("reviews", el)}
-          className="py-16 md:py-24 relative px-4 sm:px-0"
-        >
-          <div className="absolute inset-0 z-0">
-            <div className="absolute top-1/4 right-[10%] w-96 h-96 rounded-full bg-primary/5 blur-3xl"></div>
-            <div className="absolute bottom-1/3 left-[5%] w-64 h-64 rounded-full bg-primary/5 blur-3xl"></div>
-
-            {/* Grid pattern overlay */}
-            <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-          </div>
-
-          <div className="container relative z-10 space-y-10 md:space-y-16">
-            <ScrollAnimation animation="fade-in-up" duration="duration-700">
-              <div className="max-w-2xl mx-auto text-center space-y-3 md:space-y-4">
-                <h2 className="text-primary font-semibold flex items-center justify-center">
-                  <span className="inline-block w-4 md:w-6 h-[2px] bg-primary mr-2 md:mr-3"></span>
-                  CLIENT TESTIMONIALS
-                  <span className="inline-block w-4 md:w-6 h-[2px] bg-primary ml-2 md:ml-3"></span>
-                </h2>
-                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white font-heading">
-                  What Clients Say
-                </h3>
-                <p className="text-neutral-300 max-w-xl mx-auto">
-                  Feedback from game developers and studios who have trusted me with their Roblox projects
-                </p>
-              </div>
-            </ScrollAnimation>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {reviewsState.map((review, index) => (
-                <ScrollAnimation
-                  key={index}
-                  animation="fade-in-up"
-                  duration="duration-700"
-                  delay={`delay-${Math.min(index * 100, 500)}` as any}
-                >
-                  <Card className="h-full bg-card-gradient border-neutral-800/50 overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                    <CardContent className="p-8 space-y-6">
-                      <div className="flex items-start gap-4">
-                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-neutral-700/50 flex-shrink-0">
-                          {/* Prefer DB avatarColor, fallback to special avatar component if legacy data exists */}
-                          {(review as any).avatar ? (
-                            (review as any).avatar
-                          ) : (
-                            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
-                              <rect width="36" height="36" rx="18" fill={review.avatarColor || "#FF5E5B"} />
-                              <circle cx="18" cy="14" r="6" fill="#FFFFFF40" />
-                              <path d="M8 30C8 24.4772 12.4772 20 18 20C23.5228 20 28 24.4772 28 30V36H8V30Z" fill="#FFFFFF40" />
-                            </svg>
-                          )}
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-bold text-white font-heading">{review.name}</h4>
-                          <p className="text-sm text-neutral-400">{review.role}</p>
-                          <div className="flex items-center mt-1">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`h-4 w-4 ${i < review.rating ? "text-yellow-500 fill-yellow-500" : "text-neutral-600"
-                                  }`}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-xs font-medium text-primary-foreground">
-                          <span className="mr-1">Project:</span>
-                          <span className="text-white">{review.project}</span>
-                        </div>
-                        <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/10 text-xs font-medium text-emerald-400">
-                          {review.price}
-                        </div>
-                      </div>
-
-                      <div className="relative">
-                        <Quote className="absolute top-0 left-0 h-8 w-8 text-primary/20 -translate-x-2 -translate-y-2" />
-                        <p className="text-neutral-300 pl-4">{review.content}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </ScrollAnimation>
-              ))}
-            </div>
-
-            <div className="flex justify-center pt-8">
-              <Button variant="outline" className="group bg-transparent">
-                <span>See More Reviews</span>
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </div>
-          </div>
-        </section>
-
+        {/* Reviews Section temporarily removed as per request */}
         {/* About Section */}
         <section id="about" ref={(el) => registerSection("about", el)} className="py-16 md:py-24 relative px-4 sm:px-0">
           <div className="absolute inset-0 z-0">
@@ -1408,7 +1311,7 @@ export default function ClientPage({ initialPortfolio }: { initialPortfolio: any
               >
                 <div className="absolute -inset-4 -z-10 bg-gradient-to-tr from-primary/10 to-transparent rounded-2xl blur-2xl transform scale-95 translate-y-4"></div>
                 <div className="relative aspect-square overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl shadow-primary/5">
-                  <img src={settings?.about?.profileImage || "/sunkyenoFilter.webp"} alt="Sunkye Profile" className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                  <img src={settings?.about?.profileImage || "/profile.webp"} alt="Sunkye Profile" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 p-4 sm:p-6 md:p-8">
                     <div className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-sm text-xs font-medium text-primary-foreground mb-2 md:mb-3">
